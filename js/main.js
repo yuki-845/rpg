@@ -1,53 +1,129 @@
-document.addEventListener('DOMContentLoaded', function () {
-    // Canvas要素を取得
-    var canvas = document.getElementById('myCanvas');
-    var ctx = canvas.getContext('2d');
+const canvas = document.getElementById("myCanvas");
+        
 
-    // 画像のパスのリスト
-    const map = [
-		[11,11,11,11,11,11,11,11,11,11],
-		[11,10,10,10,10,10,10,10,10,11],
-		[11, 4, 4, 4, 4, 4, 4, 4, 4,11],
-		[11, 4,11, 4, 4,11,11,11, 4,11],
-		[11, 4,11,11,11,11,10,10, 4,11],
-		[11, 4,11,10,10,11, 4, 4, 4,11],
-		[11, 4,11, 4, 4,11,11,11, 4,11],
-		[11, 4, 9, 4, 4, 9,10,11, 4,11],
-		[11, 4, 4, 4, 4, 4, 4,11, 4,11],
-		[11,11,11,11,11,11,11,11,11,11]
-	];
+const ctx = canvas.getContext("2d");
+var map = [
+	[0, 0, 1, 0, 1, 0, 0, 0 ,0 ,1 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,1 ,0],
+	[0, 1, 0, 0, 0, 1, 1, 1 ,0 ,1 ,0 ,1 ,1 ,0 ,1 ,1 ,1 ,0 ,1 ,0],
+	[0, 0, 1, 1, 0, 0, 0, 1 ,0 ,0 ,0 ,1 ,0 ,0 ,0 ,1 ,0 ,0 ,0 ,0],
+	[1, 0, 1, 0, 1, 1, 0, 0 ,0 ,1 ,1 ,1 ,1 ,1 ,0 ,0 ,1 ,0 ,1 ,0],
+	[0, 0, 0, 0, 0, 1, 1, 1 ,0 ,1 ,0 ,0 ,0 ,0 ,1 ,1 ,0 ,1 ,1 ,0],
+	[0, 1, 1, 1, 0, 0, 0, 0 ,0 ,1 ,0 ,1 ,1 ,1 ,0 ,1 ,0 ,0 ,0 ,0],
+	[0, 1, 1, 1, 0, 1, 1, 1 ,1 ,1 ,0 ,1 ,0 ,0 ,0 ,0 ,1 ,1 ,1 ,0],
+	[0, 0, 0, 1, 0, 0, 0, 0 ,1 ,0 ,0 ,1 ,0 ,1 ,1 ,0 ,0 ,0 ,1 ,0],
+	[1, 1, 0, 1, 1, 1, 1, 1 ,1 ,0 ,1 ,1 ,0 ,0 ,1 ,1 ,1 ,0 ,1 ,1],
+	[1, 0, 0, 0, 0, 0, 1, 1 ,0 ,0 ,0 ,0 ,1 ,0 ,1 ,1 ,0 ,0 ,1 ,0],
+	[1, 0, 1, 1, 1, 0, 0, 0 ,1 ,0 ,1 ,0 ,0 ,0 ,0 ,0 ,1 ,1 ,0 ,0],
+	[1, 0, 1, 0, 1, 1, 1, 0 ,1 ,0 ,1 ,1 ,0 ,1 ,1 ,0 ,0 ,0 ,0 ,1],
+	[0, 0, 1, 0, 0, 1, 0, 0 ,1 ,0 ,0 ,1 ,0 ,1 ,0 ,1 ,1 ,1 ,0 ,0],
+	[0, 1, 1, 1, 0, 1, 0, 1 ,0 ,0 ,1 ,1 ,0 ,1 ,0 ,1 ,1 ,0 ,1 ,0],
+	[0, 0, 0, 1, 0, 1, 0, 0 ,1 ,0 ,1 ,1 ,0 ,1 ,0 ,0 ,0 ,0 ,0 ,0],
+	[1, 1, 0, 1, 0, 1, 0, 1 ,1 ,0 ,0 ,1 ,0 ,1 ,1 ,0 ,1 ,1 ,1 ,0],
+	[0, 0, 0, 1, 0, 1, 1, 1 ,1 ,1 ,0 ,1 ,0 ,1 ,1 ,0 ,0 ,0 ,1 ,0],
+	[0, 1, 1, 1, 0, 1, 0, 0 ,0 ,0 ,0 ,1 ,0 ,0 ,0 ,1 ,1 ,0 ,1 ,1],
+	[0, 1, 0, 0, 0, 1, 0, 1 ,1 ,1 ,0 ,0 ,1 ,1 ,0 ,1 ,0 ,0 ,0 ,0],
+	[0, 0, 0, 1, 0, 0, 0, 1 ,1 ,1 ,1 ,0 ,0 ,0 ,1 ,1 ,1 ,1 ,1 ,0]
+];
 
-    // 画像を読み込むための関数
-    function loadImage(path, callback) {
-        var img = new Image();
-        img.onload = function () {
-            callback(img);
-        };
-        img.src = path;
-    }
+    
+const player = new Image();
+player.src = "img/player.png";
+let Noright = false;
+let Noleft = false;
+let Nodown = false;
+let Noup = false;
+        let playerX = 0;
+        let playerY = 0;
+        const playerSpeed = 6;
 
-    // 画像を描画するための関数
-    function drawImageOnCanvas(image, x, y) {
-        ctx.drawImage(image, x, y, 32, 32); // 画像のサイズは適宜調整
-    }
-
-    // すべての画像を描画する
-    function drawAllImages() {
-        var x = 0;
-        var y = 0;
-
-        for (var i = 0; i < map.length; i++) {
-            loadImage("img/tile.png", function (image) {
-                //X方向に、何番目の画像か
-				const frameX = map[y][x] % ( image.width / 32 );
-				//Y方向に、何番目の画像か
-				const frameY = ~~( map[y][x] / ( image.width / 32 ) );
-                drawImageOnCanvas(image, x, y);
-                x += 120; // 画像の間隔を調整
-            });
+        function drawPlayer() {
+            
+            ctx.drawImage(player, 0, 0);
         }
-    }
+        function drawMap() {
+            let wall = new Image();
+            wall.src = "img/wall.png";
+            let countR = 0;
+            let countL = 0;
+            let countD = 0;
+            let countU = 0;
+            for (var y=0; y<map.length; y++) {
+                
+                for (var x=0; x<map[y].length; x++) {
+                    
+                    if ( map[y][x] === 1 ) ctx.drawImage( wall, 32*x - playerX, 32*y - playerY);
+                    if(map[y][x] === 1 && 32*x - playerX <= 32 && 32*x - playerX >= 0 && 32*y - playerY <= 35 && 32*y - playerY >= -2) {
+                        console.log(x,y)
+                        countR++;
+                    }
+                    if(map[y][x] === 1 && 32*x - playerX >= -32 && 32*x - playerX <= 0 && 32*y - playerY <= 35 && 32*y - playerY >= -2) {
+                        console.log(x,y)
+                        countL++;
+                    }
+                    if(map[y][x] === 1 && 32*x - playerX >= 0 && 32*x - playerX <= 32 && 32*y - playerY > 31 && 32*y - playerY < 40) {
+                        console.log(x,y)
+                        countD++;
+                    }
+                    if(map[y][x] === 1 && 32*x - playerX >= 0 && 32*x - playerX <= 32 && 32*y - playerY > 31 && 32*y - playerY < 40) {
+                        console.log(x,y)
+                        countU++;
+                    }
+                }
+                
+            }
+            if(countR >= 1) {
+                Noright = true;
+            } else {
+                Noright = false;
+            }
+            if(countL >= 1) {
+                Noleft = true;
+            } else {
+                Noleft = false;
+            }
+            if(countD >= 1) {
+                Nodown = true;
+            } else {
+                Nodown = false;
+            }
+            if(countU >= 1) {
+                Noup = true;
+            } else {
+                Noup = false;
+            }
+        }
+        function update() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            drawMap();
+            drawPlayer();
+        }
 
-    // 画像の描画を開始
-    drawAllImages();
-});
+        function keyDownHandler(event) {
+            switch (event.key) {
+                case "ArrowUp":
+                    
+                    playerY -= playerSpeed;
+                    break;
+                case "ArrowDown":
+                    if(Nodown) break;
+                    playerY += playerSpeed;
+                    break;
+                case "ArrowLeft":
+                    if(Noleft) break;
+                    playerX -= playerSpeed;
+                    break;
+                case "ArrowRight":
+                    if(Noright) break;
+                    playerX += playerSpeed;
+                    break;
+            }
+        }
+
+        document.addEventListener("keydown", keyDownHandler);
+
+        function gameLoop() {
+            update();
+            requestAnimationFrame(gameLoop);
+        }
+
+        gameLoop();
