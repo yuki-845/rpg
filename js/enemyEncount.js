@@ -12,5 +12,6 @@ function enemyEncount() {
     ctx.strokeStyle = "white" ;
     ctx.lineWidth = 2;
     ctx.stroke() ;
+    
 
 }

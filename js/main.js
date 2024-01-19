@@ -80,15 +80,11 @@ let LeftCount = 0;
 let RightCount = 0;
 //何回歩いたかカウント
 let WalkCount = 0;
-
-
-document.addEventListener("DOMContentLoaded", function() {
-    // audio要素を取得
-    
-    var audio = document.getElementById("myAudio");
-    // 再生開始
-    audio.play();
-  });
+//bgm
+const NormalBattleBGM = new Audio("bgm/NormalBatlle.mp3");
+const FieldBgm = new Audio("bgm/FieldBgm.mp3");
+NormalBattleBGM.loop = true;
+FieldBgm.loop = true;
 
         function drawPlayer() {
             let Player_Direction = 1;
@@ -166,8 +162,11 @@ document.addEventListener("DOMContentLoaded", function() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             if(WalkCount % 10 == 7) {
                 enemyEncount();
+                NormalBattleBGM.play();
+                FieldBgm.pause();
             }else {
-                
+                FieldBgm.play();
+                NormalBattleBGM.pause();
                 drawMap();
                 drawPlayer();
             }
