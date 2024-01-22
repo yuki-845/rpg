@@ -178,12 +178,13 @@ let BattleDecision = false;
                 PlayerContext();
                 EnemyContext();
                 BattleSelector();
-                NormalBattleBGM.play();
+                BattleScript()
+                // NormalBattleBGM.play();
                 FieldBgm.pause();
 
             }else {
                 SmallFishEnemyArray = [];
-                FieldBgm.play();
+                // FieldBgm.play();
                 NormalBattleBGM.pause();
                 drawMap();
                 drawPlayer();
@@ -200,7 +201,9 @@ let BattleDecision = false;
             switch (event.key) {
                 case 'Enter':
                     if(WalkCount % 10 == 7) {
+                        console.log("enter")
                         BattleDecision = true;
+                        break;
                     }
                     break;
                 case "ArrowUp":

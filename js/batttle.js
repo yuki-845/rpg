@@ -1,6 +1,11 @@
 let SlectionArray = [["たたかう",316],["まほう",351],["あいてむ",386],["にげる",421]];
 //選択の数字
 let selector = 0;
+
+//斬撃の写真の事前読み込み
+const SwordAttack = new Image();
+SwordAttack.src = "effect/SwordAttack.png";
+//バトルの選択画面
 function BattleSelector() {
     //選択画面の表示
     ctx.beginPath();
@@ -15,18 +20,57 @@ function BattleSelector() {
     ctx.font = '13px Roboto medium';
     ctx.fillStyle = "white";
     for(let i = 0; i < 4; i++) {
+        
         ctx.fillText(SlectionArray[i][0],160,SlectionArray[i][1])
     }
     //どこを選択しているかを表示する三角形
     ctx.strokeStyle = "white" ;
-    ctx.lineWidth = 1;x
+    ctx.lineWidth = 1;
     ctx.rect( 118, SlectionArray[selector][1] - 9, 12, 12 );
     ctx.stroke();
 }
 //何を選択したかによってボトルの行動を変える
+
 function BattleScript() {
     if(BattleDecision) {
-        if("たたかう")
+        if("たたかう" == SlectionArray[selector][0]) {
+            let _i = 0;
+            const intervalId = setInterval(() =>{
+                
+                if(_i >= SwordAttack.width / 120) {
+                  clearInterval(intervalId);
+                }
+
+                const _frameX = (_i) % (SwordAttack.width / 120 );
+                const _frameY = ~~( (_i) / ( SwordAttack.width / 120 ) );
+                console.log(_i)
+                
+                ctx.drawImage(
+                    SwordAttack,
+                    120*_frameX,
+                    120*_frameY,
+                    120,
+                    120,
+                    0,
+                    0,
+                    80,
+                    80
+                )
+                _i++;
+            }, 100);
+            
+            
+        }
+        if("にげる" == SlectionArray[selector][0]) {
+            WalkCount += 1;
+        }
         BattleDecision = false;
     }
 }
+function sleep(waitMsec) {
+    var startMsec = new Date();
+  
+    // 指定ミリ秒間だけループさせる（CPUは常にビジー状態）
+    while (new Date() - startMsec < waitMsec);
+  }
+  
