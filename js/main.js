@@ -85,6 +85,12 @@ const NormalBattleBGM = new Audio("bgm/NormalBatlle.mp3");
 const FieldBgm = new Audio("bgm/FieldBgm.mp3");
 NormalBattleBGM.loop = true;
 FieldBgm.loop = true;
+//ザコ敵の数をランダムで決める 1~3までで
+let NumberOfEnemys = 0;
+//雑魚敵のどれが出るか配列で決める
+let SmallFishEnemyArray = [];
+let BattleDecision = false;
+
 
         function drawPlayer() {
             let Player_Direction = 1;
@@ -161,10 +167,22 @@ FieldBgm.loop = true;
 
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             if(WalkCount % 10 == 7) {
-                enemyEncount();
+                if(SmallFishEnemyArray.length == 0) {
+                NumberOfEnemys = Math.floor( Math.random() * 3 );
+                for(let i = 0; i < NumberOfEnemys + 1; i++) {
+                    let x = Math.floor( Math.random() * SmallFishEnemyCSV.length );
+                    SmallFishEnemyArray.push(x);
+                }
+                console.log(SmallFishEnemyArray)
+            }
+                PlayerContext();
+                EnemyContext();
+                BattleSelector();
                 NormalBattleBGM.play();
                 FieldBgm.pause();
+
             }else {
+                SmallFishEnemyArray = [];
                 FieldBgm.play();
                 NormalBattleBGM.pause();
                 drawMap();
@@ -180,8 +198,17 @@ FieldBgm.loop = true;
             let num2 = 0;
 
             switch (event.key) {
+                case 'Enter':
+                    if(WalkCount % 10 == 7) {
+                        BattleDecision = true;
+                    }
+                    break;
                 case "ArrowUp":
                     if(WalkCount % 10 == 7) {
+                        selector = (selector - 1) % 4;
+                        if(selector < 0) {
+                            selector += 4;
+                        }
                         break;
                     }
                     num1 = map[Math.floor(((playerY - playerSpeed) + baseY) / 32)][Math.floor(((playerX) + baseX)/32)];
@@ -206,6 +233,7 @@ FieldBgm.loop = true;
                     num2 = map[Math.ceil(((playerY + playerSpeed) + baseY) / 32)][Math.ceil(((playerX) + baseX)/32)];
                     console.log(num1,num2)
                     if(WalkCount % 10 == 7) {
+                        selector = (selector + 1) % 4;
                         break;
                     }
                     if(num1 !== 6 && num1 !== 23) {
