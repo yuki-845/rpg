@@ -163,6 +163,7 @@ let BattleDecision = false;
             }
             
         }
+        let _i = 0;
         function update() {
 
             ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -179,10 +180,13 @@ let BattleDecision = false;
                 EnemyContext();
                 BattleSelector();
                 BattleScript()
+                
+                
                 // NormalBattleBGM.play();
                 FieldBgm.pause();
 
             }else {
+                
                 SmallFishEnemyArray = [];
                 // FieldBgm.play();
                 NormalBattleBGM.pause();

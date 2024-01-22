@@ -56,6 +56,9 @@ function PlayerContext() {
         32
     );
 }
+//誰に攻撃するかの選択
+
+let SelectAttack = 0;
 function EnemyContext() {
     ctx.beginPath();
     //HP

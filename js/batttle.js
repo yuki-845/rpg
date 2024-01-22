@@ -24,47 +24,43 @@ function BattleSelector() {
         ctx.fillText(SlectionArray[i][0],160,SlectionArray[i][1])
     }
     //どこを選択しているかを表示する三角形
-    ctx.strokeStyle = "white" ;
-    ctx.lineWidth = 1;
-    ctx.rect( 118, SlectionArray[selector][1] - 9, 12, 12 );
-    ctx.stroke();
+    if(!BattleDecision) {
+        ctx.strokeStyle = "white" ;
+        ctx.lineWidth = 1;
+        ctx.rect( 118, SlectionArray[selector][1] - 9, 12, 12 );
+        ctx.stroke();
+    }
+    
 }
 //何を選択したかによってボトルの行動を変える
 
 function BattleScript() {
     if(BattleDecision) {
         if("たたかう" == SlectionArray[selector][0]) {
-            let _i = 0;
-            const intervalId = setInterval(() =>{
-                
-                if(_i >= SwordAttack.width / 120) {
-                  clearInterval(intervalId);
-                }
-
-                const _frameX = (_i) % (SwordAttack.width / 120 );
-                const _frameY = ~~( (_i) / ( SwordAttack.width / 120 ) );
-                console.log(_i)
-                
-                ctx.drawImage(
-                    SwordAttack,
-                    120*_frameX,
-                    120*_frameY,
-                    120,
-                    120,
-                    0,
-                    0,
-                    80,
-                    80
+            if(_i >= SwordAttack.width / 120) {
+                BattleDecision = false;
+                _i = 0;
+            }
+            const _frameX = (_i) % (SwordAttack.width / 120 );
+            const _frameY = ~~( (_i) / ( SwordAttack.width / 120 ) );
+                        
+            ctx.drawImage(
+                SwordAttack,
+                120*_frameX,
+                120*_frameY,
+                120,
+                120,
+                0,
+                0,
+                80,
+                80
                 )
-                _i++;
-            }, 100);
-            
-            
+            _i++;
         }
         if("にげる" == SlectionArray[selector][0]) {
             WalkCount += 1;
         }
-        BattleDecision = false;
+        
     }
 }
 function sleep(waitMsec) {
