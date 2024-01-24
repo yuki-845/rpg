@@ -3,7 +3,7 @@ const canvas = document.getElementById("myCanvas");
 
 const ctx = canvas.getContext("2d");
 
-let map = [
+const map = [
     [18, 18, 18, 18, 18, 18, 18, 18, 18, 40, 40, 40, 40, 40, 40, 40, 48, 48, 48, 48, 49, 48, 48, 48, 40, 40, 40, 48, 48, 48, 48, 48, 48, 48, 40, 40, 41, 40, 40, 40, 48, 48, 48, 48, 48, 48, 40, 40, 41, 41],
     [18, 18, 18, 18, 18, 18, 18, 18, 18, 48, 48, 48, 40, 48, 48, 48, 48, 49, 18, 6, 73, 74, 6, 6, 48, 48, 48, 48, 49, 41, 41, 40, 41, 41, 40, 40, 41, 48, 48, 48, 49, 49, 40, 40, 41, 40, 48, 40, 41, 41],
     [18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 6, 6, 48, 48, 49, 6, 6, 6, 18, 6, 81, 82, 6, 6, 48, 49, 49, 49, 49, 40, 40, 41, 41, 40, 40, 40, 41, 49, 49, 40, 40, 48, 48, 48, 49, 40, 40, 40, 41, 41],
@@ -89,7 +89,7 @@ FieldBgm.loop = true;
 let NumberOfEnemys = 0;
 //雑魚敵のどれが出るか配列で決める
 let SmallFishEnemyArray = [];
-let BattleDecision = false;
+let EnterCount = 0;
 
 
         function drawPlayer() {
@@ -205,23 +205,34 @@ let BattleDecision = false;
             switch (event.key) {
                 case 'Enter':
                     if(WalkCount % 10 == 7) {
-                        console.log("enter")
-                        BattleDecision = true;
+                        
+                        
+                        EnterCount++;
                         break;
                     }
                     break;
                 case "ArrowUp":
                     if(WalkCount % 10 == 7) {
+                        console.log(EnterCount)
+                        if(EnterCount === 1) {
+
+                            SelectAttack = (SelectAttack - 1) % SmallFishEnemyArray.length;
+                            if(SelectAttack < 0) {
+                                SelectAttack += SmallFishEnemyArray.length;
+                            }
+                            break;
+                        }
                         selector = (selector - 1) % 4;
                         if(selector < 0) {
                             selector += 4;
                         }
+                        
                         break;
                     }
                     num1 = map[Math.floor(((playerY - playerSpeed) + baseY) / 32)][Math.floor(((playerX) + baseX)/32)];
                     num2 = map[Math.floor(((playerY - playerSpeed) + baseY) / 32)][Math.ceil(((playerX) + baseX)/32)];
                     console.log(num1,num2)
-
+                    
                     if(num1 !== 6 && num1 !== 23) {
                         break;
                     }
@@ -240,7 +251,12 @@ let BattleDecision = false;
                     num2 = map[Math.ceil(((playerY + playerSpeed) + baseY) / 32)][Math.ceil(((playerX) + baseX)/32)];
                     console.log(num1,num2)
                     if(WalkCount % 10 == 7) {
+                        if(EnterCount == 1) {
+                            SelectAttack = (SelectAttack + 1) % SmallFishEnemyArray.length;
+                            break;
+                        }
                         selector = (selector + 1) % 4;
+                        
                         break;
                     }
                     if(num1 !== 6 && num1 !== 23) {

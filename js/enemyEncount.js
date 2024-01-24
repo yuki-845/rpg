@@ -56,9 +56,10 @@ function PlayerContext() {
         32
     );
 }
-//誰に攻撃するかの選択
 
+//誰に攻撃するかの選択
 let SelectAttack = 0;
+
 function EnemyContext() {
     ctx.beginPath();
     //HP
@@ -85,5 +86,15 @@ function EnemyContext() {
         var img = new Image();
         img.src = `img/enemy/${SmallFishEnemyCSV[SmallFishEnemyArray[i]][0]}`;
         ctx.drawImage(img, 160 - (img.width / 2), ((284 / (NumberOfEnemys + 2)) * (i + 1)) - (img.height / 2));
+    }
+
+    //敵を攻撃するときに現れるマーク
+    if(EnterCount == 1 && SlectionArray[selector][0] == "たたかう") {
+        
+        let _x = SmallFishEnemyArray.length;
+        ctx.strokeStyle = "white" ;
+        ctx.lineWidth = 1;
+        ctx.rect( 70, (284 / (_x + 1)) * (SelectAttack + 1) , 12, 12 );
+        ctx.stroke();
     }
 }

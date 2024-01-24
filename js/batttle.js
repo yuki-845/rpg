@@ -24,7 +24,7 @@ function BattleSelector() {
         ctx.fillText(SlectionArray[i][0],160,SlectionArray[i][1])
     }
     //どこを選択しているかを表示する三角形
-    if(!BattleDecision) {
+    if(EnterCount != 1) {
         ctx.strokeStyle = "white" ;
         ctx.lineWidth = 1;
         ctx.rect( 118, SlectionArray[selector][1] - 9, 12, 12 );
@@ -35,10 +35,10 @@ function BattleSelector() {
 //何を選択したかによってボトルの行動を変える
 
 function BattleScript() {
-    if(BattleDecision) {
-        if("たたかう" == SlectionArray[selector][0]) {
+    
+        if("たたかう" == SlectionArray[selector][0] && EnterCount == 2) {
             if(_i >= SwordAttack.width / 120) {
-                BattleDecision = false;
+                EnterCount = 0;
                 _i = 0;
             }
             const _frameX = (_i) % (SwordAttack.width / 120 );
@@ -50,18 +50,19 @@ function BattleScript() {
                 120*_frameY,
                 120,
                 120,
-                0,
-                0,
-                80,
-                80
+                130,
+                ((284 / (NumberOfEnemys + 2)) * (SelectAttack + 1)) - 40,
+                90,
+                90
                 )
             _i++;
         }
-        if("にげる" == SlectionArray[selector][0]) {
+        if("にげる" == SlectionArray[selector][0] && EnterCount == 1) {
+            EnterCount= 0;
             WalkCount += 1;
         }
         
-    }
+  
 }
 function sleep(waitMsec) {
     var startMsec = new Date();
