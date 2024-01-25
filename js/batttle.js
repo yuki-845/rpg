@@ -63,12 +63,14 @@ function BattleSelector() {
 function BattleScript() {
     
         if("たたかう" == SlectionArray[selector][0] && EnterCount == 2) {
+            if(frameCount % 2 === 0) {
             if(_i >= SwordAttack.width / 120) {
                 EnterCount = 0;
                 IsPlayerAttack = true;
                 _i = 0;
             }
             knifeEffect.play();
+            
             const _frameX = (_i) % (SwordAttack.width / 120 );
             const _frameY = ~~( (_i) / ( SwordAttack.width / 120 ) );
                         
@@ -84,9 +86,11 @@ function BattleScript() {
                 90
                 )
             _i++;
+            }
         }
 
         if("まほう" == SlectionArray[selector][0] && EnterCount == 3) {
+            if(frameCount % 2 === 0) {
             if(_i >= SwordAttack.width / 120) {
                 EnterCount = 0;
                 _i = 0;
@@ -108,6 +112,7 @@ function BattleScript() {
                 90
                 )
             _i++;
+            }
         }
         if("にげる" == SlectionArray[selector][0] && EnterCount == 1) {
             EnterCount= 0;
@@ -120,12 +125,14 @@ const enemyAttack = new Image();
 enemyAttack.src = "effect/SwordAttack.png";
 //敵の攻撃
 function EnemyAttack() {
+    
     if(IsPlayerAttack) {
     if(_i >= enemyAttack.width / 120) {
         EnterCount = 0;
         IsPlayerAttack = false
         _i = 0;
     }
+    
     knifeEffect.play();
     const _frameX = (_i) % (enemyAttack.width / 120 );
     const _frameY = ~~( (_i) / ( enemyAttack.width / 120 ) );
@@ -147,11 +154,24 @@ function EnemyAttack() {
 function BattleText() {
     if("まほう" == SlectionArray[selector][0] && EnterCount == 3) {
         ctx.beginPath();
-        ctx.rect( 0, 0, 136, 162 );
+        ctx.rect( 390, 10, 244, 46 );
         ctx.fillStyle = "black";
         ctx.fill();
         ctx.strokeStyle = 'white';
         ctx.lineWidth = 2;
         ctx.stroke();
+
+        //まほうのテキスト挿入
+        ctx.fillStyle = "white"
+        ctx.font = '20px Roboto medium';
+        ctx.fillText("ファイヤ",475,35)
     }
 }
+function sleep(waitMsec) {
+    var startMsec = new Date();
+  
+    // 指定ミリ秒間だけループさせる（CPUは常にビジー状態）
+    while (new Date() - startMsec < waitMsec);
+  }
+  
+  

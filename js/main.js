@@ -165,7 +165,7 @@ let MagicSelect = 0;
         }
         let _i = 0;
         function update() {
-
+            frameCount++;
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             if(WalkCount % 10 == 7) {
                 if(SmallFishEnemyArray.length == 0) {

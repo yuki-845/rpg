@@ -3,7 +3,7 @@
 let characterCSV = CsvMake("csv/character/player.csv");
 let SmallFishEnemyCSV = CsvMake("csv/enemy/SmallFishEnemy.csv")
 const MemorizeMagic = ["ヒール","ファイガ","エレトール","ヒーラ","エクスプロージョン"];
-
+let frameCount = 0;
 //雑魚敵の今のHP
 let SmallFishEnemyHP = SmallFishEnemyCSV[1][1]
 console.log(Math.random(9))
