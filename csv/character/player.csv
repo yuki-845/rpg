@@ -1,2 +1,2 @@
-PlayerName,LV,総経験値,HP,MP,MaxHP,MaxMP
-ゼノン,1,0,20,3,20,3
+PlayerName,LV,総経験値,HP,MP,MaxHP,MaxMP,攻撃力,魔力
+ゼノン,1,0,20,3,20,3,10,14

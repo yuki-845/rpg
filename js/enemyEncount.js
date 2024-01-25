@@ -2,12 +2,12 @@
 // コンソールに配列を出力
 let characterCSV = CsvMake("csv/character/player.csv");
 let SmallFishEnemyCSV = CsvMake("csv/enemy/SmallFishEnemy.csv")
+const MemorizeMagic = ["ヒール","ファイガ","エレトール","ヒーラ","エクスプロージョン"];
 
 //雑魚敵の今のHP
 let SmallFishEnemyHP = SmallFishEnemyCSV[1][1]
 console.log(Math.random(9))
 function PlayerContext() {
-    
     ctx.beginPath();
     //背景
     ctx.fillStyle = 'black';
@@ -72,25 +72,25 @@ function EnemyContext() {
          //敵の名前を描画
         ctx.font = '12px Roboto medium';
         ctx.fillStyle = "white"
-        var textWidth = ctx.measureText(SmallFishEnemyCSV[SmallFishEnemyArray[i]][0].slice(0,SmallFishEnemyCSV[SmallFishEnemyArray[i]][0].length - 4)).width ;
-        ctx.fillText(SmallFishEnemyCSV[SmallFishEnemyArray[i]][0].slice(0,SmallFishEnemyCSV[SmallFishEnemyArray[i]][0].length - 4),89 - (textWidth / 2),140 / (NumberOfEnemys + 2) * (i + 1) + 305);
+        var textWidth = ctx.measureText(SmallFishEnemyCSV[SmallFishEnemyArray[i][0]][0].slice(0,SmallFishEnemyCSV[SmallFishEnemyArray[i][0]][0].length - 4)).width ;
+        ctx.fillText(SmallFishEnemyCSV[SmallFishEnemyArray[i][0]][0].slice(0,SmallFishEnemyCSV[SmallFishEnemyArray[i][0]][0].length - 4),89 - (textWidth / 2),140 / (NumberOfEnemys + 2) * (i + 1) + 305);
 
         
         // 敵のHPを描画
         ctx.font = '13px Roboto medium';
-        var textWidth = ctx.measureText(`${SmallFishEnemyHP}/${SmallFishEnemyCSV[SmallFishEnemyArray[i]][1]}`).width ;
-        ctx.fillText(`${SmallFishEnemyHP}/${SmallFishEnemyCSV[SmallFishEnemyArray[i]][1]}`,192 - (textWidth / 2),140 / (NumberOfEnemys + 2) * (i + 1) + 305)
+        var textWidth = ctx.measureText(`${SmallFishEnemyHP}/${SmallFishEnemyCSV[SmallFishEnemyArray[i][0]][1]}`).width ;
+        ctx.fillText(`${SmallFishEnemyHP}/${SmallFishEnemyCSV[SmallFishEnemyArray[i][0]][1]}`,192 - (textWidth / 2),140 / (NumberOfEnemys + 2) * (i + 1) + 305)
 
 
         //敵の写真を描画
         var img = new Image();
-        img.src = `img/enemy/${SmallFishEnemyCSV[SmallFishEnemyArray[i]][0]}`;
+        img.src = `img/enemy/${SmallFishEnemyCSV[SmallFishEnemyArray[i][0]][0]}`;
         ctx.drawImage(img, 160 - (img.width / 2), ((284 / (NumberOfEnemys + 2)) * (i + 1)) - (img.height / 2));
     }
-
+    
     //敵を攻撃するときに現れるマーク
-    if(EnterCount == 1 && SlectionArray[selector][0] == "たたかう") {
-        
+    if((EnterCount == 1 && SlectionArray[selector][0]) == "たたかう" || (EnterCount == 2 && SlectionArray[selector][0] == "まほう")) {
+
         let _x = SmallFishEnemyArray.length;
         ctx.strokeStyle = "white" ;
         ctx.lineWidth = 1;

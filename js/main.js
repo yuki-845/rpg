@@ -82,6 +82,7 @@ let RightCount = 0;
 let WalkCount = 0;
 //bgm
 const NormalBattleBGM = new Audio("bgm/NormalBatlle.mp3");
+
 const FieldBgm = new Audio("bgm/FieldBgm.mp3");
 NormalBattleBGM.loop = true;
 FieldBgm.loop = true;
@@ -90,6 +91,7 @@ let NumberOfEnemys = 0;
 //雑魚敵のどれが出るか配列で決める
 let SmallFishEnemyArray = [];
 let EnterCount = 0;
+let MagicSelect = 0;
 
 
         function drawPlayer() {
@@ -169,10 +171,11 @@ let EnterCount = 0;
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             if(WalkCount % 10 == 7) {
                 if(SmallFishEnemyArray.length == 0) {
+                    //0:敵の名前 1:敵のHP 2:敵のMP 3:敵の経験値
                 NumberOfEnemys = Math.floor( Math.random() * 3 );
                 for(let i = 0; i < NumberOfEnemys + 1; i++) {
                     let x = Math.floor( Math.random() * SmallFishEnemyCSV.length );
-                    SmallFishEnemyArray.push(x);
+                    SmallFishEnemyArray.push([x,SmallFishEnemyCSV[x][1],SmallFishEnemyCSV[x][2],SmallFishEnemyCSV[x][3]]);
                 }
                 console.log(SmallFishEnemyArray)
             }
@@ -182,13 +185,13 @@ let EnterCount = 0;
                 BattleScript()
                 
                 
-                // NormalBattleBGM.play();
+                //NormalBattleBGM.play();
                 FieldBgm.pause();
 
             }else {
                 
                 SmallFishEnemyArray = [];
-                // FieldBgm.play();
+                //FieldBgm.play();
                 NormalBattleBGM.pause();
                 drawMap();
                 drawPlayer();
@@ -213,9 +216,14 @@ let EnterCount = 0;
                     break;
                 case "ArrowUp":
                     if(WalkCount % 10 == 7) {
-                        console.log(EnterCount)
-                        if(EnterCount === 1) {
-
+                        if(EnterCount == 1 && "まほう" == SlectionArray[selector][0]) {
+                            MagicSelect = (MagicSelect - 1) % PlayerMagicArray[0].length;
+                            if(MagicSelect < 0) {
+                                MagicSelect += PlayerMagicArray[0].length
+                            }
+                            break;
+                        }
+                        if(EnterCount === 1 || EnterCount == 2) {
                             SelectAttack = (SelectAttack - 1) % SmallFishEnemyArray.length;
                             if(SelectAttack < 0) {
                                 SelectAttack += SmallFishEnemyArray.length;
@@ -251,7 +259,12 @@ let EnterCount = 0;
                     num2 = map[Math.ceil(((playerY + playerSpeed) + baseY) / 32)][Math.ceil(((playerX) + baseX)/32)];
                     console.log(num1,num2)
                     if(WalkCount % 10 == 7) {
-                        if(EnterCount == 1) {
+                        if(EnterCount == 1 && "まほう" == SlectionArray[selector][0]) {
+                            MagicSelect = (MagicSelect + 1) % PlayerMagicArray[0].length;
+                            
+                            break;
+                        }
+                        if(EnterCount == 1 || EnterCount == 2) {
                             SelectAttack = (SelectAttack + 1) % SmallFishEnemyArray.length;
                             break;
                         }
