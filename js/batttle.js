@@ -13,6 +13,8 @@ FireAttack.src = "effect/ファイヤ.png";
 const knifeEffect = new Audio("SE/ナイフで切る.mp3");
 
 const fire = new Audio("SE/ファイヤ.mp3")
+//プレイヤーが攻撃したかどうか把握する
+let IsPlayerAttack = false;
 
 //バトルの選択画面
 function BattleSelector() {
@@ -56,13 +58,14 @@ function BattleSelector() {
     
     
 }
-//何を選択したかによってボトルの行動を変える
 
+//何を選択したかによってボトルの行動を変える
 function BattleScript() {
     
         if("たたかう" == SlectionArray[selector][0] && EnterCount == 2) {
             if(_i >= SwordAttack.width / 120) {
                 EnterCount = 0;
+                IsPlayerAttack = true;
                 _i = 0;
             }
             knifeEffect.play();
@@ -87,6 +90,7 @@ function BattleScript() {
             if(_i >= SwordAttack.width / 120) {
                 EnterCount = 0;
                 _i = 0;
+                IsPlayerAttack = true;
             }
             fire.play();
             const _frameX = (_i) % (SwordAttack.width / 120 );
@@ -112,10 +116,42 @@ function BattleScript() {
         
   
 }
-function sleep(waitMsec) {
-    var startMsec = new Date();
-  
-    // 指定ミリ秒間だけループさせる（CPUは常にビジー状態）
-    while (new Date() - startMsec < waitMsec);
-  }
-  
+const enemyAttack = new Image();
+enemyAttack.src = "effect/SwordAttack.png";
+//敵の攻撃
+function EnemyAttack() {
+    if(IsPlayerAttack) {
+    if(_i >= enemyAttack.width / 120) {
+        EnterCount = 0;
+        IsPlayerAttack = false
+        _i = 0;
+    }
+    knifeEffect.play();
+    const _frameX = (_i) % (enemyAttack.width / 120 );
+    const _frameY = ~~( (_i) / ( enemyAttack.width / 120 ) );
+                
+    ctx.drawImage(
+        enemyAttack,
+        120*_frameX,
+        120*_frameY,
+        120,
+        120,
+        130,
+        0,
+        90,
+        90
+        )
+    _i++;
+}
+}
+function BattleText() {
+    if("まほう" == SlectionArray[selector][0] && EnterCount == 3) {
+        ctx.beginPath();
+        ctx.rect( 0, 0, 136, 162 );
+        ctx.fillStyle = "black";
+        ctx.fill();
+        ctx.strokeStyle = 'white';
+        ctx.lineWidth = 2;
+        ctx.stroke();
+    }
+}

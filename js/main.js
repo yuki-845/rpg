@@ -92,8 +92,6 @@ let NumberOfEnemys = 0;
 let SmallFishEnemyArray = [];
 let EnterCount = 0;
 let MagicSelect = 0;
-
-
         function drawPlayer() {
             let Player_Direction = 1;
             if(UpCount > 0) {
@@ -183,8 +181,8 @@ let MagicSelect = 0;
                 EnemyContext();
                 BattleSelector();
                 BattleScript()
-                
-                
+                EnemyAttack();
+                BattleText();
                 //NormalBattleBGM.play();
                 FieldBgm.pause();
 
@@ -211,6 +209,16 @@ let MagicSelect = 0;
                         
                         
                         EnterCount++;
+                        if("たたかう" == SlectionArray[selector][0] && EnterCount == 2) {
+                            SmallFishEnemyArray[SelectAttack][1] -= 50//characterCSV[1][7];
+                        }
+                        if(SmallFishEnemyArray[SelectAttack][1] <= 0) {
+                            SmallFishEnemyArray.splice(SelectAttack,1)
+                            if(SmallFishEnemyArray.length <=0 ) {
+                                WalkCount += 1;
+                            }
+                        }
+                        console.log(SmallFishEnemyArray)
                         break;
                     }
                     break;
