@@ -1,0 +1,94 @@
+
+canvas {
+    text-align: center;
+    border: 1px solid black;
+}
+
+.search_container{
+    box-sizing: border-box;
+}
+H3 {
+    background-color: white;
+}
+h1 {
+    padding-top: 40px;
+    padding-left: 40px;
+}
+  .search_container input[type="text"]{
+    border: 1px solid #999;
+    padding: 3px 5px;
+    border-radius: 20px;
+    height: 2.0em;
+    width: 245px;
+    overflow: hidden;
+  }
+  .search_container input[type="text"]:focus {
+    outline: 0;
+  }
+  .search_container input[type="submit"]{
+    cursor: pointer;
+    
+    font-size: 1.3em;
+    border: none;
+    background: none;
+    color: #3879D9;
+    outline : none;
+    display: inline-block;
+    vertical-align: middle;
+  }
+  
+* {
+    font-family: FontAwesome;
+    background-color: #f9fcfd;
+    margin: 0;
+    padding: 0;
+}
+header {
+    padding: 20px;
+    
+    background-color: #FFF;
+}
+.header-main {
+    font-size: 18px;
+    background-color: #FFF;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.header-inner {
+    display:  flex;
+    align-items: center;
+}
+
+.search {
+    background-color: #FFF;
+    padding-right: 1.2rem;
+}
+.login {
+    background-color: #FFF;
+    padding-right: 1.2rem;
+}
+header .button a {
+	display: block;
+	width: 80px;
+	height: 30px;
+	line-height: 30px;
+	background: blue;
+	font-size: 11px;
+	color: white;
+	text-align: center;
+	letter-spacing: .2em;
+	text-indent: .2em;
+	border-radius: 30px;
+    text-decoration: none;
+}
+.canvas {
+    width: 640px;
+    padding: 40px;
+    margin: 0 auto;  
+}
+.gametext {
+    width: 640px;
+    padding: 40px;
+    margin: 0 auto; 
+}

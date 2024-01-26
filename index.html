@@ -3,17 +3,38 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RPG</title>
+    <title>GameRoom</title>
+    <link href="css/css.css" rel="stylesheet" />
 </head>
-<style>
-    
-    canvas {
-      border: 1px solid black;
-    }
-    </style>
 <body>
-    
-    <canvas id="myCanvas" width="640" height="480" fillstyle=""black></canvas>
+    <header>
+        <div class="header-main">
+            <h3>GameRoom</h3>
+            <div class="header-inner">
+                <div class="search">
+                    <form method="get" action="#" class="search_container">
+                        <input type="text" size="25" placeholder="　キーワード検索">
+                      </form>
+                </div>
+                <div class="login">
+                <p class="button"><a href="#!">login</a></p>
+                </div>
+            </div>
+        
+        </div>
+    </header>
+    <div>
+        <h1>ドラゴンファンタジー</h1>
+    </div>
+    <div class="canvas">
+        <canvas id="myCanvas" width="640" height="480" fillstyle=""black></canvas>
+    </div>
+    <div class="gametext">
+        <h4>ゲーム紹介</h4>
+        <p>
+            《龍の遺産》への挑戦が始まる。荒廃の大陸、龍の影が闊歩し、絶望が広がる。プレイヤーは勇者として立ち上がり、古代の龍の遺産を巡る冒険に身を投じる。広大なファンタジーの世界を探索し、神秘的な場所で強大な敵と戦う中で、力強い仲間たちとの絆を築いていく。戦略的なバトルで龍の力を制し、物語の進行に影響を与える選択をしながら、プレイヤーのキャラクターは成長し進化していく。驚異的なグラフィックと美麗な音楽がプレイヤーを異世界へ誘い、エピックな冒険が繰り広げられる。龍の謎を解き、大地に再び光をもたらすために、君の冒険が幕を開ける。
+        </p>
+    </div>
     <script src="js/soundEffect.js"></script>
     <script src="js/CsvMake.js"></script>
     <script src="js/batttle.js"></script>

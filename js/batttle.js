@@ -65,11 +65,20 @@ function BattleScript() {
         if("たたかう" == SlectionArray[selector][0] && EnterCount == 2) {
             if(frameCount % 2 === 0) {
             if(_i >= SwordAttack.width / 120) {
-                EnterCount = 0;
-                IsPlayerAttack = true;
-                _i = 0;
+                //プレイヤーが攻撃してから80f敵が攻撃するまで待つ
+                if(_i >= (SwordAttack.width / 120 + 40)) {
+                    EnterCount = 0;
+                    _i = 0;
+                    IsPlayerAttack = true;
+                    return 0;
+                }
+                _i++;
+                return 0;
             }
-            knifeEffect.play();
+            if(_i == 0) {
+                knifeEffect.play();
+            }
+            
             
             const _frameX = (_i) % (SwordAttack.width / 120 );
             const _frameY = ~~( (_i) / ( SwordAttack.width / 120 ) );
@@ -96,7 +105,10 @@ function BattleScript() {
                 _i = 0;
                 IsPlayerAttack = true;
             }
-            fire.play();
+            if(_i == 0) {
+                fire.play();
+            }
+            
             const _frameX = (_i) % (SwordAttack.width / 120 );
             const _frameY = ~~( (_i) / ( SwordAttack.width / 120 ) );
                         
@@ -124,21 +136,55 @@ function BattleScript() {
 const enemyAttack = new Image();
 enemyAttack.src = "effect/SwordAttack.png";
 //敵の攻撃
+let __x = 0;
+let __y = 0;
 function EnemyAttack() {
     
     if(IsPlayerAttack) {
-    if(_i >= enemyAttack.width / 120) {
-        EnterCount = 0;
-        IsPlayerAttack = false
+        
+    if(_i % (enemyAttack.width / 120) == 0) {
+        
+        
         _i = 0;
+        console.log(__x,EnterCount)
+        if(__x >= (SmallFishEnemyArray.length )) {
+            EnterCount = 0;
+            IsPlayerAttack = false
+            _i = 0;
+            __x = 0;
+        }
+        __y++;
+        if(__y < 100) {
+
+            //敵の攻撃の説明,敵が攻撃している間は表示し続ける
+            ctx.beginPath();
+            ctx.rect( 390, 10, 244, 46 );
+            ctx.fillStyle = "black";
+            ctx.fill();
+            ctx.strokeStyle = 'white';
+            ctx.lineWidth = 2;
+            ctx.stroke();
+
+            ctx.fillStyle = "white"
+            ctx.font = '11px Roboto medium';
+            ctx.fillText(`${SmallFishEnemyCSV[SmallFishEnemyArray[__x][0]][0]}の攻撃`,475,35)
+            return 0;
+        }else {
+            __y = 0;
+        }
+        __x++;
+        
+            
+       
+        
     }
-    
+    console.log("sss")
     knifeEffect.play();
     const _frameX = (_i) % (enemyAttack.width / 120 );
     const _frameY = ~~( (_i) / ( enemyAttack.width / 120 ) );
                 
     ctx.drawImage(
-        enemyAttack,
+        SwordAttack,
         120*_frameX,
         120*_frameY,
         120,
@@ -166,12 +212,5 @@ function BattleText() {
         ctx.font = '20px Roboto medium';
         ctx.fillText("ファイヤ",475,35)
     }
+    
 }
-function sleep(waitMsec) {
-    var startMsec = new Date();
-  
-    // 指定ミリ秒間だけループさせる（CPUは常にビジー状態）
-    while (new Date() - startMsec < waitMsec);
-  }
-  
-  
